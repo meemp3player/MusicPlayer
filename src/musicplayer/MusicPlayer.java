@@ -26,7 +26,7 @@ public class MusicPlayer extends Application {
     ArrayList<String> tracks = new ArrayList<>();
 
     public void addTracks() {
-        tracks.add("InsertFilePathHere.mp3");
+        tracks.add("Rick Astley - Never Gonna Give You Up.mp3");
     }
 
     public void setSound() {
