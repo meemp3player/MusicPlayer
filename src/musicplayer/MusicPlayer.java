@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.*;
 
 /**
@@ -28,7 +29,9 @@ public class MusicPlayer extends Application {
 
     MediaPlayer mediaPlayer;
     ArrayList<String> tracks = new ArrayList<>();
-    Button playPauseButton;
+   // Button playPauseButton;
+    ImageView playView;
+    ImageView pauseView;
     public void addTracks() {
         
         tracks.add("src\\Rick Astley - Never Gonna Give You Up.mp3");
@@ -39,21 +42,26 @@ public class MusicPlayer extends Application {
         mediaPlayer = new MediaPlayer(sound);
     }
 
-    public Button createPlayPauseButton() {
-        Image playPauseButtonIcon;
+    public ImageView createPlayPauseButton() {
         try {
-            playPauseButtonIcon = new Image(new FileInputStream("src\\PauseButton.png"));
-            ImageView playPauseButtonView = new ImageView(playPauseButtonIcon);
-
-            playPauseButton = new Button("",playPauseButtonView);
-            playPauseButtonView.setFitHeight(50);
-            playPauseButtonView.setFitWidth(50);
-            playPauseButton.setTranslateX(70.0);
+            Image pauseButtonIcon = new Image(new FileInputStream("src\\PauseButton.png"));
+            Image playButtonIcon = new Image(new FileInputStream("src\\PlayButton.png"));
+            pauseView = new ImageView(pauseButtonIcon);
+            playView = new ImageView(playButtonIcon);
+            
+          //  playPauseButton = new Button("");
+           // playPauseButton.setGraphic(pauseView);
+            
+            pauseView.setFitHeight(70);
+            pauseView.setFitWidth(70);
+            playView.setFitHeight(50);
+            playView.setFitWidth(50);
+            //playPauseButton.setTranslateX(0);
         } catch (FileNotFoundException ex) {
             System.out.println("Image not found!");
         }
 
-        return playPauseButton;
+        return pauseView;
     }
 
     @Override
@@ -62,32 +70,32 @@ public class MusicPlayer extends Application {
         addTracks();
         setSound();
         
-        playPauseButton = createPlayPauseButton();
+        pauseView = createPlayPauseButton();
        /* playPauseButton.setLayoutX(0);
         playPauseButton.setLayoutY(0);*/
         mediaPlayer.play();
-        playPauseButton.setOnAction(new EventHandler<ActionEvent>() {
-             
-            @Override
-            public void handle(ActionEvent event) {
-                if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
-                    mediaPlayer.pause();
-                } 
-                if (mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
-                    mediaPlayer.play();
-                }
-            }
-        });
-        StackPane root = new StackPane();
+         StackPane root = new StackPane();
         //root.getChildren().add(btn);
 
         //Scene scene = new Scene(root, 300, 250);
         Scene scene = new Scene(root, 800, 650);
+        pauseView.setOnMouseClicked((MouseEvent event) -> {
+              //  playPauseButton.setGraphic(playView);
+                root.getChildren().remove(pauseView);
+                root.getChildren().add(playView);
+                mediaPlayer.play();
+        });
+        playView.setOnMouseClicked((MouseEvent event) -> {
+            root.getChildren().remove(playView);
+            root.getChildren().add(pauseView);
+                
+            mediaPlayer.pause();
+        });
 
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
         primaryStage.show();
-        root.getChildren().add(playPauseButton);
+        root.getChildren().add(playView);
         //playPauseButtonAndPausePlayButton();
 
     }
