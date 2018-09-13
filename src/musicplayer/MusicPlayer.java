@@ -29,7 +29,6 @@ public class MusicPlayer extends Application {
 
     MediaPlayer mediaPlayer;
     ArrayList<String> tracks = new ArrayList<>();
-   // Button playPauseButton;
     ImageView playView;
     ImageView pauseView;
     public void addTracks() {
@@ -49,14 +48,10 @@ public class MusicPlayer extends Application {
             pauseView = new ImageView(pauseButtonIcon);
             playView = new ImageView(playButtonIcon);
             
-          //  playPauseButton = new Button("");
-           // playPauseButton.setGraphic(pauseView);
-            
             pauseView.setFitHeight(70);
             pauseView.setFitWidth(70);
             playView.setFitHeight(50);
             playView.setFitWidth(50);
-            //playPauseButton.setTranslateX(0);
         } catch (FileNotFoundException ex) {
             System.out.println("Image not found!");
         }
@@ -70,17 +65,12 @@ public class MusicPlayer extends Application {
         addTracks();
         setSound();
         
-        pauseView = createPlayPauseButton();
-       /* playPauseButton.setLayoutX(0);
-        playPauseButton.setLayoutY(0);*/
+        createPlayPauseButton();
         mediaPlayer.play();
          StackPane root = new StackPane();
-        //root.getChildren().add(btn);
 
-        //Scene scene = new Scene(root, 300, 250);
         Scene scene = new Scene(root, 800, 650);
         pauseView.setOnMouseClicked((MouseEvent event) -> {
-              //  playPauseButton.setGraphic(playView);
                 root.getChildren().remove(pauseView);
                 root.getChildren().add(playView);
                 mediaPlayer.play();
@@ -88,7 +78,6 @@ public class MusicPlayer extends Application {
         playView.setOnMouseClicked((MouseEvent event) -> {
             root.getChildren().remove(playView);
             root.getChildren().add(pauseView);
-                
             mediaPlayer.pause();
         });
 
@@ -96,7 +85,6 @@ public class MusicPlayer extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         root.getChildren().add(playView);
-        //playPauseButtonAndPausePlayButton();
 
     }
 
