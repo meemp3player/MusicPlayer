@@ -7,16 +7,14 @@ package musicplayer;
 
 import javafx.scene.image.Image;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -55,6 +53,8 @@ public class MusicPlayer extends Application {
             pauseView.setFitWidth(70);
             playView.setFitHeight(50);
             playView.setFitWidth(50);
+            pauseView.setTranslateY(250);
+            playView.setTranslateY(250);
         } catch (FileNotFoundException ex) {
             System.out.println("Image not found!");
         }
@@ -94,7 +94,7 @@ public class MusicPlayer extends Application {
 		event.consume();
 	});
 
-        Scene scene = new Scene(root, 800, 650);
+        Scene scene = new Scene(root, 450, 600);
         pauseView.setOnMouseClicked((MouseEvent event) -> {
                 root.getChildren().remove(pauseView);
                 root.getChildren().add(playView);
@@ -109,7 +109,7 @@ public class MusicPlayer extends Application {
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
         primaryStage.show();
-        root.getChildren().add(playView);
+        root.getChildren().add(pauseView);
 
     }
 
