@@ -18,7 +18,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.media.*;
 
 /**
@@ -67,7 +70,29 @@ public class MusicPlayer extends Application {
         
         createPlayPauseButton();
         mediaPlayer.play();
-         StackPane root = new StackPane();
+        StackPane root = new StackPane();
+	root.setOnDragOver((DragEvent event) -> {
+		if (event.getGestureSource() != root
+			&& event.getDragboard().hasFiles()) {
+			/* allow for both copying and moving, whatever user chooses */
+			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+		}
+		event.consume();
+	});
+
+        root.setOnDragDropped((DragEvent event) -> {
+		Dragboard db = event.getDragboard();
+		boolean success = false;
+		if (db.hasFiles()) {
+			System.out.println(db.getFiles().get(0).toString());
+			success = true;
+		}
+		/* let the source know whether the string was successfully
+		* transferred and used */
+		event.setDropCompleted(success);
+		
+		event.consume();
+	});
 
         Scene scene = new Scene(root, 800, 650);
         pauseView.setOnMouseClicked((MouseEvent event) -> {
