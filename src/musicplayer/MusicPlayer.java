@@ -64,7 +64,7 @@ public class MusicPlayer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
+        primaryStage.setResizable(false);
         addTracks();
         setSound();
         
