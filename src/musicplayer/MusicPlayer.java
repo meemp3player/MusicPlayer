@@ -54,6 +54,7 @@ public class MusicPlayer extends Application {
     public void addPresetTracks() {
         tracks.add("src/Rick Astley - Never Gonna Give You Up.mp3");
         tracks.add("src/Somebody once told me.mp3");
+        tracks.add("src/EarthBFlat.mp3");
     }
     
     //sets the song to the one with the corresponding song number
@@ -64,6 +65,11 @@ public class MusicPlayer extends Application {
                 break;
             case 1:
                 sound = new Media(new File(tracks.get(1)).toURI().toString());
+            /*this loops it back to the first song(Rick Astley) if the song number is greater than 1
+            cuz clicking the nextTrack button too much can do that */
+                break;
+            case 2:
+                sound = new Media(new File(tracks.get(2)).toURI().toString());
             /*this loops it back to the first song(Rick Astley) if the song number is greater than 1
             cuz clicking the nextTrack button too much can do that */
                 break;
@@ -102,9 +108,21 @@ public class MusicPlayer extends Application {
                     defaultSongCover();
                 }
                 break;
+            case 2:
+                try{
+                    Image Default = new Image(new FileInputStream(songCovers.get(2)));
+                    songCoverView = new ImageView(Default);
+                    
+                    songCoverView.setFitHeight(400);
+                    songCoverView.setFitWidth(400);
+                } catch(FileNotFoundException e) {
+                    defaultSongCover();
+                }
+                break;
             /*this loops it back to the first song cover image(Rick Astley) if the song number is greater than 1
             cuz clicking the nextTrack button too much can do that */
             default:
+             
                 songNumber = 0;
                 updateSongCover();
                 break;
@@ -113,7 +131,7 @@ public class MusicPlayer extends Application {
     //sets cover to default image if there is no image for song or image fails to load
     public void defaultSongCover(){
         try {
-                    Image Default = new Image(new FileInputStream("src/Default.png"));
+                    Image Default = new Image(new FileInputStream("src/DefaultCoverImage.png"));
                     songCoverView = new ImageView(Default);
                     
                     songCoverView.setFitHeight(400);
@@ -127,6 +145,7 @@ public class MusicPlayer extends Application {
     public void addSongCovers() {
         songCovers.add("src/RickAstley.png");
         songCovers.add("src/SmashMouth.png");
+        songCovers.add("src/Default.png");
     }
     
     public void goToNextTrack() {
