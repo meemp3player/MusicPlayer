@@ -245,14 +245,16 @@ public class MusicPlayer extends Application {
             root.getChildren().add(songCoverView);
         });
         //I haven't waited for a song to end so idk if this will work
-        if(mediaPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
-            goToNextTrack();
-            mediaPlayer.stop();
-            updateSong();
-            updateSongCover();
-            mediaPlayer.play();
-            root.getChildren().add(songCoverView);
-        }
+        mediaPlayer.setOnStopped(() -> {
+            if (mediaPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
+                goToNextTrack();
+                mediaPlayer.stop();
+                updateSong();
+                updateSongCover();
+                mediaPlayer.play();
+                root.getChildren().add(songCoverView);
+            }
+        });
         
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
