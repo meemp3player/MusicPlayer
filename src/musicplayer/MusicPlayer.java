@@ -244,7 +244,7 @@ public class MusicPlayer extends Application {
             mediaPlayer.play();
             root.getChildren().add(songCoverView);
         });
-        //I haven't waited for a song to end so idk if this will work
+        
         mediaPlayer.setOnEndOfMedia(() -> {
             if (mediaPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
                 goToNextTrack();
