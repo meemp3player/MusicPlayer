@@ -89,7 +89,7 @@ public class MusicPlayer extends Application {
                     //songCoverView.setTranslateX(playView.getTranslateX());
                     //songCoverView.setTranslateY(playView.getTranslateY()-200);
                 } catch (FileNotFoundException e){
-                    System.out.println("Image not found!");
+                    defaultSongCover();
                 }    break;
             case 1:
                 try{
@@ -99,7 +99,7 @@ public class MusicPlayer extends Application {
                     songCoverView.setFitHeight(400);
                     songCoverView.setFitWidth(400);
                 } catch(FileNotFoundException e) {
-                    System.out.println("Image not found!");
+                    defaultSongCover();
                 }
                 break;
             /*this loops it back to the first song cover image(Rick Astley) if the song number is greater than 1
@@ -110,6 +110,19 @@ public class MusicPlayer extends Application {
                 break;
         }
     }
+    //sets cover to default image if there is no image for song or image fails to load
+    public void defaultSongCover(){
+        try {
+                    Image Default = new Image(new FileInputStream("src/Default.png"));
+                    songCoverView = new ImageView(Default);
+                    
+                    songCoverView.setFitHeight(400);
+                    songCoverView.setFitWidth(400);
+                } catch (FileNotFoundException e){
+                    System.out.println("Image not found!");
+                }    
+    }
+    
     
     public void addSongCovers() {
         songCovers.add("src/RickAstley.png");
