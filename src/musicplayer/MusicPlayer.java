@@ -20,6 +20,10 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.media.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -47,6 +51,8 @@ public class MusicPlayer extends Application {
     Media sound;
     
     StackPane root;
+    
+    Text songTitle;
     
     int songNumber = 0;
     
@@ -127,6 +133,34 @@ public class MusicPlayer extends Application {
                 updateSongCover();
                 break;
         }
+    }
+    
+    public void setSongTitle() {
+        switch(songNumber) {
+            case 0:
+                songTitle = new Text();
+                songTitle.setText("Rick Astley - Never Gonna Give You Up");
+                songTitle.setTranslateX(20);
+                songTitle.setTranslateY(20);
+                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
+                break;
+            case 1:
+                songTitle = new Text();
+                songTitle.setText("Smash Mouth - All Star");
+                songTitle.setTranslateX(20);
+                songTitle.setTranslateY(20);
+                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
+                break;
+            default:
+                songNumber = 0;
+                updateSongTitle();
+                break;
+        }
+            
+    }
+    
+    public void updateSongTitle() {
+       setSongTitle();
     }
     //sets cover to default image if there is no image for song or image fails to load
     public void defaultSongCover(){
@@ -220,6 +254,7 @@ public class MusicPlayer extends Application {
         addPresetTracks();
         setSong();
         setSongCover();
+        setSongTitle();
         
         createPlayPauseButton();
         createRestartButton();
@@ -273,6 +308,11 @@ public class MusicPlayer extends Application {
         nextTrackView.setOnMouseClicked((MouseEvent event) -> {
             goToNextTrack();
             mediaPlayer.stop();
+            
+            root.getChildren().remove(songTitle);
+            updateSongTitle();
+            root.getChildren().add(songTitle);
+            
             updateSong();
             updateSongCover();
             mediaPlayer.play();
@@ -280,9 +320,12 @@ public class MusicPlayer extends Application {
         });
         
         mediaPlayer.setOnEndOfMedia(() -> {
-            System.out.println("what");
+            //System.out.println("what");
             goToNextTrack();
             mediaPlayer.stop();
+            root.getChildren().remove(songTitle);
+            updateSongTitle();
+            root.getChildren().add(songTitle);
             updateSong();
             updateSongCover();
             mediaPlayer.play();
@@ -296,6 +339,7 @@ public class MusicPlayer extends Application {
         root.getChildren().add(restartView);
         root.getChildren().add(nextTrackView);
         root.getChildren().add(songCoverView);
+        root.getChildren().add(songTitle);
     }
 
     /**
