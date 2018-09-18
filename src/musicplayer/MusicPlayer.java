@@ -246,14 +246,13 @@ public class MusicPlayer extends Application {
         });
         
         mediaPlayer.setOnEndOfMedia(() -> {
-            if (mediaPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
-                goToNextTrack();
-                mediaPlayer.stop();
-                updateSong();
-                updateSongCover();
-                mediaPlayer.play();
-                root.getChildren().add(songCoverView);
-            }
+            System.out.println("what");
+            goToNextTrack();
+            mediaPlayer.stop();
+            updateSong();
+            updateSongCover();
+            mediaPlayer.play();
+            root.getChildren().add(songCoverView);
         });
         
         primaryStage.setTitle("Music Player");
