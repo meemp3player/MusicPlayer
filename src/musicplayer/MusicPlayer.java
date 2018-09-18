@@ -227,28 +227,30 @@ public class MusicPlayer extends Application {
         
         mediaPlayer.play();
         root = new StackPane();
-	root.setOnDragOver((DragEvent event) -> {
-		if (event.getGestureSource() != root
-			&& event.getDragboard().hasFiles()) {
-			/* allow for both copying and moving, whatever user chooses */
-			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-		}
-		event.consume();
-	});
+        root.setOnDragOver((DragEvent event) -> {
+            if (event.getGestureSource() != root
+                && event.getDragboard().hasFiles()) {
+                /* allow for both copying and moving, whatever user chooses */
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            }
+            event.consume();
+        });
 
         root.setOnDragDropped((DragEvent event) -> {
-		Dragboard db = event.getDragboard();
-		boolean success = false;
-		if (db.hasFiles()) {
-			System.out.println(db.getFiles().get(0).toString());
-			success = true;
-		}
-		/* let the source know whether the string was successfully
-		* transferred and used */
-		event.setDropCompleted(success);
-		
-		event.consume();
-	});
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                String full_filename = db.getFiles().get(0).getName();
+                String filename = full_filename.substring(0, full_filename.lastIndexOf("."));
+                System.out.println(filename);
+                success = true;
+            }
+            /* let the source know whether the string was successfully
+            * transferred and used */
+            event.setDropCompleted(success);
+            
+            event.consume();
+        });
 
         Scene scene = new Scene(root, 450, 600);
         
