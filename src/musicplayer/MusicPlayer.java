@@ -291,7 +291,7 @@ public class MusicPlayer extends Application {
             root.getChildren().add(songTitle);
         }); 
         
-        /*mediaPlayer.setOnEndOfMedia(() -> {
+        mediaPlayer.setOnEndOfMedia(() -> {
             //System.out.println("what");
             goToNextTrack();
             mediaPlayer.stop();
@@ -302,7 +302,7 @@ public class MusicPlayer extends Application {
             updateSongCover();
             mediaPlayer.play();
             root.getChildren().add(songCoverView);
-        }); */
+        });
         
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
