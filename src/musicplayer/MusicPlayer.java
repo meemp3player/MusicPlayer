@@ -80,7 +80,7 @@ public class MusicPlayer extends Application {
         ));
         songs.add(new Song(
             "Rockefeller Street",
-            "srcNightcore - Rockefeller Street.mp3",
+            "src/Nightcore - Rockefeller Street.mp3",
 			"src/Default.png"
         ));
     }
@@ -110,9 +110,8 @@ public class MusicPlayer extends Application {
     public void setSongTitle() {
 		songTitle = new Text();
 		songTitle.setText(songs.get(songNumber).name);
-		songTitle.setTranslateX(20);
-		songTitle.setTranslateY(20);
-		songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
+		songTitle.setTranslateY(songCoverView.getTranslateY()-260);
+                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 25));
     }
     
     //sets cover to default image if there is no image for song or image fails to load
@@ -120,9 +119,9 @@ public class MusicPlayer extends Application {
         try {
             Image Default = new Image(new FileInputStream("src/DefaultCoverImage.png"));
             songCoverView = new ImageView(Default);
-            
+            songCoverView.setTranslateX(60);
+            songCoverView.setFitWidth(600);
             songCoverView.setFitHeight(400);
-            songCoverView.setFitWidth(400);
         } catch (FileNotFoundException e){
             System.out.println("Image not found!");
         }    
