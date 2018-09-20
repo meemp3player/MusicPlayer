@@ -36,9 +36,11 @@ public class MusicPlayer extends Application {
     MediaPlayer mediaPlayer;
     
     //stores the URLs of the .mp3 song files (the order of this matters)
-    ArrayList<String> tracks = new ArrayList<>();
+    //ArrayList<String> tracks = new ArrayList<>();
     //stores the URLs of the .png song cover files (the order of this matters)
-    ArrayList<String> songCovers = new ArrayList<>();
+    //ArrayList<String> songCovers = new ArrayList<>();
+
+    ArrayList<Song> songs = new ArrayList<>();
     
     //buttons
     ImageView playView;
@@ -61,136 +63,68 @@ public class MusicPlayer extends Application {
     
     //adds the tracks that are NOT added by the user via drag and drop
     public void addPresetTracks() {
-        tracks.add("src/Rick Astley - Never Gonna Give You Up.mp3");
-        tracks.add("src/Somebody once told me.mp3");
-        //tracks.add("src/Nightcore Rockefeller Street.mp3");
-        tracks.add("src/Nightcore Rockefeller Street.mp3");
+        songs.add(new Song(
+            "Rick Astley - Never Gonna Give You Up",
+            "src/Rick Astley - Never Gonna Give You Up.mp3",
+            "src/RickAstley.png"
+        ));
+        songs.add(new Song(
+            "Smash Mouth - All Star",
+		    "src/Somebody once told me.mp3",
+		    "src/SmashMouth.png"
+		));
+        songs.add(new Song(
+            "EarthBFlat",
+            "src/EarthBFlat.mp3",
+			"src/Default.png"
+        ));
     }
     
     //sets the song to the one with the corresponding song number
     public void setSong() {
-        switch (songNumber){
-            case 0:
-                sound = new Media(new File(tracks.get(0)).toURI().toString());
-                break;
-            case 1:
-                sound = new Media(new File(tracks.get(1)).toURI().toString());
-                break;
-            case 2:
-                sound = new Media(new File(tracks.get(2)).toURI().toString());
-                break;
-            /*this loops it back to the first song(Rick Astley) if the song number is greater than 1
-            cuz clicking the nextTrack button too much can do that */
-            default:
-                songNumber = 0;
-                sound = new Media(new File(tracks.get(0)).toURI().toString());
-                break;
-        }
+		sound = new Media(new File(songs.get(songNumber).path).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
     }
     
     //sets the song cover image to the one with the corresponding song number
     public void setSongCover() {
-        addSongCovers();
-        switch (songNumber) {
-            case 0:
-                try {
-                    Image rickAstleyCover = new Image(new FileInputStream(songCovers.get(0)));
-                    songCoverView = new ImageView(rickAstleyCover);
-                    
-                    songCoverView.setFitHeight(400);
-                    songCoverView.setFitWidth(400);
-                    //for some reason these statements make it crash lol
-                    //songCoverView.setTranslateX(playView.getTranslateX());
-                    //songCoverView.setTranslateY(playView.getTranslateY()-200);
-                } catch (FileNotFoundException e){
-                    defaultSongCover();
-                }    break;
-            case 1:
-                try{
-                    Image smashMouthCover = new Image(new FileInputStream(songCovers.get(1)));
-                    songCoverView = new ImageView(smashMouthCover);
-                    
-                    songCoverView.setFitHeight(400);
-                    songCoverView.setFitWidth(400);
-                } catch(FileNotFoundException e) {
-                    defaultSongCover();
-                }
-                break;
-            case 2:
-                try{
-                    Image Default = new Image(new FileInputStream(songCovers.get(2)));
-                    songCoverView = new ImageView(Default);
-                    
-                    songCoverView.setTranslateX(60);
-                    songCoverView.setFitHeight(400);
-                    songCoverView.setFitWidth(600);
-                } catch(FileNotFoundException e) {
-                    defaultSongCover();
-                }
-                break;
-            /*this loops it back to the first song cover image(Rick Astley) if the song number is greater than 1
-            cuz clicking the nextTrack button too much can do that */
-            default:
-                updateSongCover();
-                break;
-        }
+	    try {
+		    Image songCover = new Image(new FileInputStream(songs.get(songNumber).coverImagePath));
+		    songCoverView = new ImageView(songCover);
+		    
+		    songCoverView.setFitHeight(400);
+		    songCoverView.setFitWidth(400);
+		    //for some reason these statements make it crash lol
+		    //songCoverView.setTranslateX(playView.getTranslateX());
+		    //songCoverView.setTranslateY(playView.getTranslateY()-200);
+	    } catch (FileNotFoundException e){
+		    defaultSongCover();
+	    }
     }
     
     public void setSongTitle() {
-        switch(songNumber) {
-            case 0:
-                songTitle.setText("Rick Astley - Never Gonna Give You Up");
-                songTitle.setX(0);
-                songTitle.setTranslateY(songCoverView.getTranslateY()-260);
-                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 25));
-                break;
-            case 1:
-                songTitle.setText("Smash Mouth - All Star");
-                songTitle.setX(0);
-                songTitle.setTranslateY(songCoverView.getTranslateY()-260);
-                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
-                break;
-            case 2:
-                songTitle.setText("Nightcore Rockefeller Street");
-                songTitle.setX(0);
-                songTitle.setTranslateY(songCoverView.getTranslateY()-260);
-                songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 25));
-                break;
-            default:
-                songNumber = 0;
-                updateSongTitle();
-                break;
-        }
-            
+		songTitle = new Text();
+		songTitle.setText(songs.get(songNumber).name);
+		songTitle.setTranslateX(20);
+		songTitle.setTranslateY(20);
+		songTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
     }
     
-    public void updateSongTitle() {
-       setSongTitle();
-    }
     //sets cover to default image if there is no image for song or image fails to load
     public void defaultSongCover(){
         try {
-                    Image Default = new Image(new FileInputStream("src/DefaultCoverImage.png"));
-                    songCoverView = new ImageView(Default);
-                    
-                    songCoverView.setTranslateX(60);
-                    songCoverView.setFitHeight(400);
-                    songCoverView.setFitWidth(600);
-                } catch (FileNotFoundException e){
-                    System.out.println("Image not found!");
-                }    
-    } 
-    
-    
-    public void addSongCovers() {
-        songCovers.add("src/RickAstley.png");
-        songCovers.add("src/SmashMouth.png");
-        songCovers.add("src/DefaultCoverImage.png");
+            Image Default = new Image(new FileInputStream("src/DefaultCoverImage.png"));
+            songCoverView = new ImageView(Default);
+            
+            songCoverView.setFitHeight(400);
+            songCoverView.setFitWidth(400);
+        } catch (FileNotFoundException e){
+            System.out.println("Image not found!");
+        }    
     }
     
     public void goToNextTrack() {
-        songNumber++;
+        if (++songNumber >= songs.size()) songNumber = 0;
     }
 
     public ImageView createPlayPauseButton() {
@@ -331,29 +265,30 @@ public class MusicPlayer extends Application {
             mediaPlayer.stop();
             
             root.getChildren().remove(songTitle);
-            updateSongTitle();
-            root.getChildren().add(songTitle);
+            setSongTitle();
+
             
             updateSong();
             updateSongCover();
             mediaPlayer.play();
             root.getChildren().add(songCoverView);
+            root.getChildren().add(songTitle);
         });
         randomTrackView.setOnMouseClicked((MouseEvent event) -> {
             int songNumberComparison = songNumber;
             while(songNumber == songNumberComparison){
                 //returns a random number within the range 0 -> track arraylist length-1
-                int random = ThreadLocalRandom.current().nextInt(0, tracks.size()); 
+                int random = ThreadLocalRandom.current().nextInt(0, songs.size()); 
                 songNumber = (int)random;
             }
             mediaPlayer.stop();
             root.getChildren().remove(songTitle);
-            updateSongTitle();
-            root.getChildren().add(songTitle);
+            setSongTitle();
             updateSong();
             updateSongCover();
             mediaPlayer.play();
             root.getChildren().add(songCoverView);
+            root.getChildren().add(songTitle);
         }); 
         
         /*mediaPlayer.setOnEndOfMedia(() -> {
@@ -361,7 +296,7 @@ public class MusicPlayer extends Application {
             goToNextTrack();
             mediaPlayer.stop();
             root.getChildren().remove(songTitle);
-            updateSongTitle();
+            setSongTitle();
             root.getChildren().add(songTitle);
             updateSong();
             updateSongCover();
@@ -389,6 +324,3 @@ public class MusicPlayer extends Application {
     }
     
 }
-
-
-
