@@ -78,6 +78,11 @@ public class MusicPlayer extends Application {
             "src/EarthBFlat.mp3",
 			"src/Default.png"
         ));
+        songs.add(new Song(
+            "Rockefeller Street",
+            "srcNightcore - Rockefeller Street.mp3",
+			"src/Default.png"
+        ));
     }
     
     //sets the song to the one with the corresponding song number
