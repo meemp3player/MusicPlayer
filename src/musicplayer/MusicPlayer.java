@@ -235,8 +235,21 @@ public class MusicPlayer extends Application {
             if (db.hasFiles()) {
                 String full_filename = db.getFiles().get(0).getName();
                 String filename = full_filename.substring(0, full_filename.lastIndexOf("."));
-                System.out.println(filename);
-                //tracks.add(full_filename);
+                songs.add(new Song(
+                        filename,
+                        db.getFiles().get(0).getAbsolutePath(),
+                        "src/Default.png"));
+                songNumber = songs.size() - 1;
+                mediaPlayer.stop();
+            
+                root.getChildren().remove(songTitle);
+                setSongTitle();
+
+                updateSong();
+                updateSongCover();
+                mediaPlayer.play();
+                root.getChildren().add(songCoverView);
+                root.getChildren().add(songTitle);
                 success = true;
             }
             /* let the source know whether the string was successfully
