@@ -11,11 +11,11 @@ package musicplayer;
  */
 public class Song {
     public String name;
-    public String path;
-    public String coverImagePath;
-    Song(String name, String path, String coverImagePath){
+    public String uri;
+    public String coverImageURI;
+    Song(String name, String uri, String coverImageURI){
         this.name = name;
-        this.path = path;
-        this.coverImagePath = coverImagePath;
+        this.uri = uri;
+        this.coverImageURI = coverImageURI;
     }
 }
